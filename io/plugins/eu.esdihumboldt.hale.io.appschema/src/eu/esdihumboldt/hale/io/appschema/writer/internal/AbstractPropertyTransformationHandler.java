@@ -156,6 +156,14 @@ public abstract class AbstractPropertyTransformationHandler
 		}
 
 		if (featureType != null) {
+			// handle MongoDB collection handling special case
+			// if (mappingName == null) {
+			// JsonPathConstraint jsonPath =
+			// AppSchemaMappingUtils.getSourceProperty(propertyCell)
+			// .getDefinition().getType().getConstraint(JsonPathConstraint.class);
+			// mappingName = jsonPath.getJsonPath();
+			// }
+
 			// fetch FeatureTypeMapping from mapping configuration
 			this.featureTypeMapping = context.getOrCreateFeatureTypeMapping(featureType,
 					mappingName);
@@ -354,7 +362,7 @@ public abstract class AbstractPropertyTransformationHandler
 							mapping.buildAttributeXPath(featureType, parentPropertyPath));
 				}
 
-				Namespace targetPropNS = context.getOrCreateNamespace(
+				Namespace targetPropNS = mapping.getOrCreateNamespace(
 						targetPropertyDef.getName().getNamespaceURI(),
 						targetPropertyDef.getName().getPrefix());
 				String unqualifiedName = targetPropertyDef.getName().getLocalPart();

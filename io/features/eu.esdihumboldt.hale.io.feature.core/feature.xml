@@ -282,6 +282,12 @@
 
    <plugin
          id="de.interactive_instruments.xtraserver-config-util"
+		 download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+	<plugin
+         id="eu.esdihumboldt.hale.io.mongo"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -297,6 +303,12 @@
    <plugin
          id="eu.esdihumboldt.hale.io.groovy"
          download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+	   <plugin
+	     id="eu.esdihumboldt.hale.io.mongo.ui"
+	     download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>

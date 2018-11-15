@@ -22,6 +22,7 @@ import eu.esdihumboldt.hale.common.align.model.Entity;
 import eu.esdihumboldt.hale.common.schema.model.TypeDefinition;
 import eu.esdihumboldt.hale.io.appschema.impl.internal.generated.app_schema.TypeMappingsPropertyType.FeatureTypeMapping;
 import eu.esdihumboldt.hale.io.appschema.writer.internal.mapping.AppSchemaMappingContext;
+import eu.esdihumboldt.hale.io.mongo.JsonPathConstraint;
 
 /**
  * Base class for type transformation handlers converting a single source entity
@@ -53,8 +54,18 @@ public abstract class SingleSourceToTargetHandler implements TypeTransformationH
 		Entity targetType = targetEntities.values().iterator().next();
 		TypeDefinition targetTypeDef = targetType.getDefinition().getType();
 
-		FeatureTypeMapping ftMapping = context.getOrCreateFeatureTypeMapping(targetTypeDef);
-		ftMapping.setSourceType(sourceType.getDefinition().getType().getName().getLocalPart());
+		FeatureTypeMapping ftMapping = context.getMappingWrapper()
+				.getOrCreateFeatureTypeMapping(targetTypeDef);
+
+		// handle MongoDB specific case
+		JsonPathConstraint jsonPath = sourceType.getDefinition().getType()
+				.getConstraint(JsonPathConstraint.class);
+		if (jsonPath.isValid()) {
+			ftMapping.setSourceType(jsonPath.getRootKey());
+		}
+		else {
+			ftMapping.setSourceType(sourceType.getDefinition().getType().getName().getLocalPart());
+		}
 
 		return ftMapping;
 	}
